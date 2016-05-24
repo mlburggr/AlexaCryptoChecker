@@ -1,6 +1,9 @@
+package AlexaCryptoChecker;
 import java.io.*;
 import java.net.*;
 import org.json.*;
+import com.amazonaws.services.lambda.runtime.Context;
+
 public class PriceGrabber {
     // Download JSON data (string) using HTTP Get Request
     private static String urlString = "https://api.kraken.com/0/public/Ticker";
@@ -34,6 +37,22 @@ public class PriceGrabber {
 	    }
 	}
 	return text;
+    }
+
+    public String getCoinHandler(String input, Context context){
+	if(input.equals("ETH") ||
+	   input.equals("Ethereum") ||
+	   input.equals("Etherium")){
+	    return "The price of Etherium is "+
+		getPrice("ETH","XBT")+"bitcoins, "+
+		getPrice("ETH","USD")+"US Dollars";
+	       
+	}
+	if(input.equals("BTC") ||
+	   input.equals("Bitcoin")){
+	    return "The price of Bitcoin is "+
+		getPrice("XBT","USD")+"US Dollars";
+	}
     }
 
     public static String getPrice(String orig, String dest){
