@@ -1,0 +1,33 @@
+import requests
+import json
+def getJSON():
+    r=requests.post("https://api.kraken.com/0/public/Ticker", data={"pair":"ETHXBT, ETHUSD, XBTUSD"})
+    return r.content
+
+def getPrice(orig, dest):
+    r=getJSON()
+    parsed=json.loads(r)
+    res = parsed["result"]
+    ethxbt = res["XETHXXBT"]
+    ethusd = res["XETHZUSD"]
+    xbtusd = res["XXBTZUSD"]
+
+    cEthxbt = ethxbt["c"]
+    cEthusd = ethusd["c"]
+    cXbtusd = xbtusd["c"]
+
+    if (orig == "ETH" and dest == "XBT"):
+        return cEthxbt[0]
+    if (orig == "ETH" and dest == "USD"):
+        return cEthusd[0]
+    if (orig == "XBT" and dest == "USD"):
+        return cXbtusd[0]
+        
+def getCoinHandler(event, context):
+    if (in == "ETH" or in == "Ethereum" or in == "Etherium"):
+        return "The price of Etherium is "+getPrice("ETH","XBT")+" bitcoins, "+getPrice("ETH","USD")+" US Dollars."
+    if (in == "BTC" or in == "Bitcoin"):
+        return "The price of Bitcoin is "+getPrice("XBT","USD")+" US Dollars."
+
+
+    
