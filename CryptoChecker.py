@@ -1,8 +1,21 @@
-import requests
+from urlparse import urlparse
+import urllib2
+import urllib
+
 import json
 def getJSON():
-    r=requests.post("https://api.kraken.com/0/public/Ticker", data={"pair":"ETHXBT, ETHUSD, XBTUSD"})
-    return r.content
+    
+    
+    url = 'https://api.kraken.com/0/public/Ticker'
+    values = { 'pair': 'ETHXBT, ETHUSD, XBTUSD' }
+    data = urllib.urlencode(values)
+    req = urllib2.Request(url, data)
+    response = urllib2.urlopen(req)
+    result = response.read()
+    
+    #r=requests.post("https://api.kraken.com/0/public/Ticker", data={"pair":"ETHXBT, ETHUSD, XBTUSD"})
+    #return r.content
+    return result
 
 def getPrice(orig, dest):
     r=getJSON()
@@ -31,3 +44,4 @@ def getCoinHandler(event, context):
 
 
     
+print(getPrice("ETH","XBT"))
