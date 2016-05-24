@@ -41,19 +41,17 @@ def getPrice(orig, dest):
 def lambda_handler(event, context):
     #print("Received event: " + json.dumps(event, indent=2))
     
-    repro = "nope " 
-    events = str(event["request"]["intent"]["slots"]["Coin"]["value"])
-
-        
-    if (events == "ETH" or events == "Ethereum" or events == "Etherium"):
-        repro "The price of Etherium is "+getPrice("ETH","XBT")+" bitcoins, "+ getPrice("ETH","USD")+" US Dollars."
-    if (events == "BTC" or event == "Bitcoin"):
-        repro "The price of Bitcoin is "+getPrice("XBT","USD")+" US Dollars."
     
-    return build_speechlet_response(titles, reply, repro, end)# Echo back the first key value
+    events = str(event["request"]["intent"]["slots"]["Coin"]["value"])
+    repro = events
+        
+    repro =  "The price of Etherium is "+getPrice("ETH","XBT")+" bitcoins, "+ getPrice("ETH","USD")+" US Dollars. " + "The price of Bitcoin is "+getPrice("XBT","USD")+" US Dollars."
+
+    
+    return build_speechlet_response(repro)# Echo back the first key value
     #raise Exception('Something went wrong')
     
-def build_speechlet_response(title, output, reprompt_text, should_end_session):
+def build_speechlet_response(reprompt_text):
     return {
   "version": "1.0",
   "response": {
